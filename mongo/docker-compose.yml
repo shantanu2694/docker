@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+    mongodb:
+        image: mongo
+        container_name: "mongodb"
+        environment:
+          - MONGO_DATA_DIR=/data/db
+          - MONGO_LOG_DIR=/logs/
+        volumes:
+          - /docker/mongo/data/db/:/data/db
+          - /docker/mongo/data/logs/:/logs/
+        networks:
+          - db_nw
+        ports:
+          - 27017:27017
+        command: --auth
+
+networks:
+   db_nw: 
+    driver : bridge   
