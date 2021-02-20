@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  jenkins:
+    image: ap_jenkins:latest
+    #image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - '81:8080'
+    environment:
+      - JVM_OPTS=-Xmx4g -Xms4g -XX:MaxPermSize=1024m
+    networks:
+      - nwjenkins  
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+#      - '/docker/flink-release-1.10:/var/flink-release-1.10'
+      - 'jenkins:/var/jenkins_home'  
+      - 'jenkins:/root/.m2'
+
+volumes:
+  jenkins:
+    driver: local
+
+networks:
+  nwjenkins:
+    driver: bridge
