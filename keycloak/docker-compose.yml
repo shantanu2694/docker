@@ -1,0 +1,31 @@
+version: '3'
+services:
+    keycloak:
+        image: jboss/keycloak
+        container_name: keycloak_1
+        networks:
+            - keycloak_nw
+        environment:
+            #DB_VENDOR: MYSQL
+            #DB_ADDR: mysql
+            DB_DATABASE: keycloak
+            DB_USER: keycloak
+            DB_PASSWORD: password
+            KEYCLOAK_USER: admin
+            KEYCLOAK_PASSWORD: Pa55w0rd
+            KEYCLOAK_HOSTNAME: dev1-autotat.autoplant.in
+            PROXY_ADDRESS_FORWARDING: "true"
+        volumes:
+            - "/docker/keycloak/data/certs/:/etc/x509/https"
+        ports:
+            - 443:8443
+            - 13002:80
+            - 8080:8080
+volumes:
+    keycloak_data:
+        driver: local
+networks:
+    keycloak_nw:
+        driver: bridge
+
+

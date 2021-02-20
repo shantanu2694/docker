@@ -1,0 +1,6 @@
+FROM jboss/keycloak:latest
+RUN yum update && yum install -y apt-utils curl vim nano telnet net-tools acl
+ADD cli/TCPPING.cli /opt/jboss/tools/cli/jgroups/discovery/
+ADD cli/JDBC_PING.cli /opt/jboss/tools/cli/jgroups/discovery/
+ADD STAR_autoplant_in.pem /usr/local/etc/haproxy/
+
