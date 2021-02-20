@@ -1,0 +1,19 @@
+registry:
+  restart: always
+  image: registry:2
+  ports:
+    - 443:443
+    - 5000:5000
+  environment:
+    REGISTRY_STORAGE_DELETE_ENABLED: "true" 
+    Garbage-Collect_CRON: "True"        
+    REGISTRY_AUTH: htpasswd
+    REGISTRY_HTTP_ADDR: 0.0.0.0:443
+    REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+    REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+    REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+    REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+  volumes:
+    - /path/to/certs:/certs
+    - /path/to/data:/var/lib/registry
+    - /path/to/auth:/auth
