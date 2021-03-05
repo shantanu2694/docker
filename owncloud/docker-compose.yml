@@ -1,0 +1,33 @@
+version: '2'
+services:
+  mariadb:
+    image: 'docker.io/bitnami/mariadb:10.3-debian-10'
+    container_name: owncloud_mariadb
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_owncloud
+      - MARIADB_DATABASE=bitnami_owncloud
+      - TZ=Asia/Kolkata
+    volumes:
+      - /data/owncloud/owncloud_data:/bitnami/mariadb
+  owncloud:
+    image: 'docker.io/bitnami/owncloud:10-debian-10'
+    container_name: owncloud
+    ports:
+      - '10001:8080'
+    environment:
+      - OWNCLOUD_DATABASE_HOST=mariadb
+      - OWNCLOUD_DATABASE_PORT_NUMBER=3306
+      - OWNCLOUD_DATABASE_USER=bn_owncloud
+      - OWNCLOUD_DATABASE_NAME=bitnami_owncloud
+      - ALLOW_EMPTY_PASSWORD=yes
+      - OWNCLOUD_HOST=localhost
+      - PHP_UPLOAD_MAX_FILESIZE=4G
+      - PHP_POST_MAX_SIZE=2G
+      - PHP_MEMORY_LIMIT=1G
+      - PHP_MAX_INPUT_TIME=3600
+      - TZ=Asia/Kolkata
+    volumes:
+      - /data/owncloud/owncloud_data/app:/bitnami/owncloud
+    depends_on:
+      - mariadb
